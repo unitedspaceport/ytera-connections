@@ -1,0 +1,168 @@
+swagger: "2.0"
+info:
+  description: This service exposes the ytera connection service via a REST API
+  version: 0.1.0
+  title: Ytera connections REST API
+  contact:
+    email: samuel.vandecasteele@i8c.be
+host: localhost
+basePath: /ytera/v1
+schemes:
+- https
+- http
+paths:
+  /ships:
+    get:
+      summary: List all ships
+      operationId: listShips
+      produces: 
+      - application/json
+      - application/xml
+      responses:
+        200:
+          description: List of ships
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ship'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /spaceports:
+    get:
+      summary: List all spaceports
+      operationId: listSpaceports
+      produces: 
+      - application/json
+      - application/xml
+      responses:
+        200:
+          description: List of spaceports
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Spaceport'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /connections:
+    get:
+      summary: List all connections
+      operationId: listConnections
+      produces: 
+      - application/json
+      - application/xml
+      parameters: 
+      - name: departure_spaceport
+        description: Return only the connection with provided departure spaceport id
+        in: query
+        required: false
+        type: integer
+      - name: destination_spaceport
+        description: Return only the connections with provided destination spaceport id
+        in: query
+        required: false
+        type: integer
+      - name: status
+        description: Return only the connections with provided status
+        in: query
+        required: false
+        type: string
+      responses:
+        200:
+          description: List of connections
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Connection'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Ship:
+    type: object
+    required:
+    - id 
+    - name
+    - build_date
+    - last_maintenance_date
+    - type_name
+    - type_name_commercial
+    - type_description
+    - type_engine
+    - max_speed_kms
+    - avg_speed_kms
+    - power_source
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      build_date:
+        type: string
+      last_maintenance_date:
+        type: string
+      type_name:
+        type: string
+      type_name_commercial:
+        type: string
+      type_description:
+        type: string
+      type_engine:
+        type: string
+      max_speed_kms:
+        type: number
+      avg_speed_kms:
+        type: number
+      power_source:
+        type: string
+  Spaceport:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      space_region:
+        type: string
+      unified_coordinates:
+        type: string
+      local_address:
+        type: string
+  Connection:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      departure_spaceport:
+        type: integer
+      destination_spaceport:
+        type: integer
+      checkin_time:
+        type: string
+      departure_time:
+        type: string
+      status:
+        type: string
+      ship_id:
+        type: integer
+        
+  Error:
+    type: object
+    required:
+      - code
+      - subject
+      - description
+    properties:
+      code:
+        type: integer
+      subject:
+        type: string
+      description:
+        type: string

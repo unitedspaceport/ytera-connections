@@ -18,6 +18,13 @@ The content of this repo contains a ```create.sql```file which creates the datab
 
 The ```rebuild.sh```script stops and removes the 'ytera-mysql' docker container and starts a new one. 
 
+## REST API implementation
+
+The Ytera service is exposed to the enterprise via REST API exposed on the webMethods service bus. The webMethods service bus implements the REST API via JDBC queries to the ytera mysql database.
+
+* See [Swagger definiton](./ytera-service-swagger-definition.yaml) 
+* See [webMethods implementation projects]() (**TODO**)
+
 ## Roadmap
 
 * Creation of a frontent app to enable an easy way to register for an upcoming connection.
